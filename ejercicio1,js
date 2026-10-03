@@ -1,0 +1,71 @@
+const readline = require("readline");
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question("Ingrese el nombre completo del cliente: ", (nombre) => {
+
+    rl.question("Ingrese la marca y modelo del vehiculo: ", (vehiculo) => {
+
+        rl.question("Ingrese el valor del vehiculo: $", (entradaPrecio) => {
+
+            let precio = parseFloat(entradaPrecio);
+
+            if (isNaN(precio) || precio <= 0) {
+                console.log("Error: el valor del vehiculo debe ser mayor a $0.00");
+                rl.close();
+                return;
+            }
+
+            console.log("\nTipo de vehiculo:");
+            console.log("1. Sedan - 5%");
+            console.log("2. SUV - 8%");
+            console.log("3. Pick-up / Camioneta - 12%");
+
+            rl.question("Seleccione una opcion: ", (opcion) => {
+
+                let porcentaje = 0;
+                let tipo = "";
+
+                switch (opcion) {
+                    case "1":
+                        porcentaje = 0.05;
+                        tipo = "Sedan";
+                        break;
+
+                    case "2":
+                        porcentaje = 0.08;
+                        tipo = "SUV";
+                        break;
+
+                    case "3":
+                        porcentaje = 0.12;
+                        tipo = "Pick-up / Camioneta";
+                        break;
+
+                    default:
+                        console.log("Error: la opcion seleccionada no existe.");
+                        rl.close();
+                        return;
+                }
+
+                let prima = precio * porcentaje;
+                let fecha = new Date().toLocaleString();
+
+                console.log("\n========== REPORTE DE COTIZACION ==========");
+                console.log("Fecha: " + fecha);
+                console.log("Cliente: " + nombre.trim());
+                console.log("Vehiculo: " + vehiculo.trim());
+                console.log("Tipo: " + tipo);
+                console.log("Valor del vehiculo: $" + precio.toFixed(2));
+                console.log("Prima anual: $" + prima.toFixed(2));
+                console.log("Total anual: $" + prima.toFixed(2));
+                console.log("===========================================");
+
+                rl.close();
+            });
+        });
+    });
+});
